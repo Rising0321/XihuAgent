@@ -179,4 +179,176 @@ app.get('/api/day-west-lake', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+// 6-hour spot top10 data endpoint
+app.get('/api/6-hour-spot-top10', (req, res) => {
+  try {
+    const filePath = path.resolve(__dirname, '../../LightData/6-hour_spot.csv');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse CSV with headers Time,spot,number
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    // Sort records by number in descending order and get top 10
+    const sortedRecords = records
+      .map(record => ({
+        ...record,
+        number: parseInt(record.number) // Convert string to number for correct sorting
+      }))
+      .sort((a, b) => b.number - a.number)
+      .slice(0, 10);
+    
+    return res.json({
+      success: true,
+      data: sortedRecords
+    });
+  } catch (error) {
+    console.error('Error reading 6-hour spot top10 data:', error);
+    return res.status(500).json({
+      success: false,
+      msg: 'Failed to read 6-hour spot top10 data'
+    });
+  }
+});
+
+// 7-day spot top10 data endpoint
+app.get('/api/7-day-spot-top10', (req, res) => {
+  try {
+    const filePath = path.resolve(__dirname, '../../LightData/7-day_spot.csv');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse CSV with headers Time,spot,number
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    // Sort records by number in descending order and get top 10
+    const sortedRecords = records
+      .map(record => ({
+        ...record,
+        number: parseInt(record.number) // Convert string to number for correct sorting
+      }))
+      .sort((a, b) => b.number - a.number)
+      .slice(0, 10);
+    
+    return res.json({
+      success: true,
+      data: sortedRecords
+    });
+  } catch (error) {
+    console.error('Error reading 7-day spot top10 data:', error);
+    return res.status(500).json({
+      success: false,
+      msg: 'Failed to read 7-day spot top10 data'
+    });
+  }
+});
+
+// 10-car park top10 data endpoint
+app.get('/api/10-car-park-top10', (req, res) => {
+  try {
+    const filePath = path.resolve(__dirname, '../../LightData/10-car_park.csv');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse CSV with headers pk_id,pk_name,Time,count
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    // Sort records by count in descending order and get top 10
+    const sortedRecords = records
+      .map(record => ({
+        ...record,
+        count: parseInt(record.count) // Convert string to number for correct sorting
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+    
+    return res.json({
+      success: true,
+      data: sortedRecords
+    });
+  } catch (error) {
+    console.error('Error reading 10-car park top10 data:', error);
+    return res.status(500).json({
+      success: false,
+      msg: 'Failed to read 10-car park top10 data'
+    });
+  }
+});
+
+// 8-road delay top10 congestion index data endpoint
+app.get('/api/8-road-delay-top10', (req, res) => {
+  try {
+    const filePath = path.resolve(__dirname, '../../LightData/8-road_delay.csv');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse CSV with headers 路段id,路段名称,Time,小时平均拥堵指数,小时平均速度
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    // Sort records by 小时平均拥堵指数 in descending order and get top 10
+    const sortedRecords = records
+      .map(record => ({
+        ...record,
+        '小时平均拥堵指数': parseFloat(record['小时平均拥堵指数']), // Convert string to number for correct sorting
+        '小时平均速度': parseFloat(record['小时平均速度'])
+      }))
+      .sort((a, b) => b['小时平均拥堵指数'] - a['小时平均拥堵指数'])
+      .slice(0, 10);
+    
+    return res.json({
+      success: true,
+      data: sortedRecords
+    });
+  } catch (error) {
+    console.error('Error reading 8-road delay top10 data:', error);
+    return res.status(500).json({
+      success: false,
+      msg: 'Failed to read 8-road delay top10 data'
+    });
+  }
+});
+
+// 9-road delay speed data endpoint
+app.get('/api/9-road-delay-speed', (req, res) => {
+  try {
+    const filePath = path.resolve(__dirname, '../../LightData/9-road_delay.csv');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse CSV with headers Time,城市小时平均拥堵指数,小时平均速度,参与计算的路段数量
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true
+    });
+    
+    // Get the first 7 rows
+    const recentRecords = records
+      .map(record => ({
+        ...record,
+        '城市小时平均拥堵指数': parseFloat(record['城市小时平均拥堵指数']),
+        '小时平均速度': parseFloat(record['小时平均速度']),
+        '参与计算的路段数量': parseInt(record['参与计算的路段数量'])
+      }))
+      .slice(0, 7);
+    
+    return res.json({
+      success: true,
+      data: recentRecords
+    });
+  } catch (error) {
+    console.error('Error reading 9-road delay speed data:', error);
+    return res.status(500).json({
+      success: false,
+      msg: 'Failed to read 9-road delay speed data'
+    });
+  }
 }); 

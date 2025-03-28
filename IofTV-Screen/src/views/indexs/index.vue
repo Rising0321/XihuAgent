@@ -29,7 +29,7 @@
     </div>
     <div class="contetn_center">
       <CenterMap class="contetn_center_top" />
-      <ItemWrap class="contetn_center-bottom" title="安装计划">
+      <ItemWrap class="contetn_center-bottom" title="车位情况">
         <CenterBottom />
       </ItemWrap>
     </div>
@@ -42,14 +42,14 @@
       </ItemWrap>
       <ItemWrap
         class="contetn_left-bottom contetn_lr-item"
-        title="报警排名(TOP8)"
+        title="收费客流"
         style="padding: 0 10px 16px 10px"
       >
         <RightCenter />
       </ItemWrap>
       <ItemWrap
         class="contetn_left-bottom contetn_lr-item"
-        title="数据统计图 "
+        title="延误指数"
       >
         <RightBottom />
       </ItemWrap>

@@ -21,6 +21,11 @@ export const paramType ={
     'water-level': '/api/water-level', // 西湖水位数据
     'hour-west-lake': '/api/hour-west-lake', // 小时全域客流
     'day-west-lake': '/api/day-west-lake', // 日全域客流
+    '6-hour-spot-top10': '/api/6-hour-spot-top10', // Top10小时收费客流
+    '7-day-spot-top10': '/api/7-day-spot-top10', // Top10日收费客流
+    '10-car-park-top10': '/api/10-car-park-top10', // Top10日车位情况
+    '8-road-delay-top10': '/api/8-road-delay-top10', // Top10拥堵路段
+    '9-road-delay-speed': '/api/9-road-delay-speed', // 周边平均速度
 }
 /******************      通用增删改查       ********************* */
 /**
